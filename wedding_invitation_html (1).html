@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation | Narinder & Radhika</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --royal-red: #800000;
+            --gold: #d4af37;
+            --gold-light: #f4e3ad;
+            --cream: #fffdf5;
+        }
+
+        body {
+            background-color: var(--cream);
+            font-family: 'Lora', serif;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .font-cursive { font-family: 'Great Vibes', cursive; }
+        .font-royal { font-family: 'Cinzel', serif; }
+
+        .text-royal-red { color: var(--royal-red); }
+        .bg-royal-red { background-color: var(--royal-red); }
+        .text-gold { color: var(--gold); }
+        .text-gold-light { color: var(--gold-light); }
+        .bg-gold { background-color: var(--gold); }
+        .bg-gold-light\/20 { background-color: rgba(244, 227, 173, 0.2); }
+        .border-gold { border-color: var(--gold); }
+        .border-gold-light { border-color: var(--gold-light); }
+
+        .hero-section {
+            height: 100vh;
+            background:
+                linear-gradient(rgba(128, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+                url('https://images.unsplash.com/photo-1620216503923-289b70b5550a?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-bottom: 8px double var(--gold);
+        }
+
+        .divine-family-watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 800px;
+            opacity: 0.04;
+            z-index: -1;
+            filter: sepia(100%) saturate(200%) hue-rotate(330deg);
+        }
+
+        .rain-drop {
+            position: absolute;
+            background: rgba(212, 175, 55, 0.4);
+            width: 1px;
+            height: 50px;
+            top: -100px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
+
+        .royal-card {
+            background: white;
+            border: 2px solid var(--gold);
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            padding: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .royal-card::after {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid var(--gold-light);
+            pointer-events: none;
+        }
+
+        .gold-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 2rem auto;
+            width: 80%;
+        }
+
+        .btn-nav {
+            background: var(--royal-red);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--gold);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-nav:hover {
+            background: var(--gold);
+            color: var(--royal-red);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 1s all ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--gold);
+            backdrop-filter: blur(5px);
+            padding: 1rem;
+            min-width: 70px;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="https://images.unsplash.com/photo-1620216503923-289b70b5550a?q=80&w=1000" class="divine-family-watermark" alt="Shiv Parvati Family">
+
+    <div id="rain-container"></div>
+
+    <section class="hero-section text-white text-center px-4">
+        <div class="z-10 w-full">
+            <img src="https://img.icons8.com/?size=100&id=16129&format=png&color=d4af37" class="mx-auto w-20 mb-6 filter drop-shadow-md" alt="Ganesha">
+            <h4 class="font-royal tracking-[0.5em] text-sm md:text-lg mb-8 text-gold-light">|| OM NAMAH SHIVAYA ||</h4>
+
+            <div class="mb-12">
+                <h1 class="text-6xl md:text-9xl font-cursive text-gold">Narinder</h1>
+                <p class="font-royal text-2xl my-4 text-gold-light">&</p>
+                <h1 class="text-6xl md:text-9xl font-cursive text-gold">Radhika</h1>
+            </div>
+
+            <p class="font-serif italic text-xl md:text-2xl mb-12">Are getting married</p>
+
+            <div class="flex justify-center gap-4 flex-wrap" id="countdown"></div>
+
+            <div class="mt-16 animate-bounce">
+                <p class="font-royal text-xs tracking-widest text-gold-light uppercase">Scroll to enter the celebration</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-4xl mx-auto px-6 py-24 relative">
+
+        <div class="text-center mb-32 reveal">
+            <div class="flex justify-center gap-4 mb-8">
+                <img src="https://img.icons8.com/?size=100&id=59841&format=png&color=800000" class="w-10 opacity-50" alt="Shiv">
+                <img src="https://img.icons8.com/?size=100&id=16129&format=png&color=800000" class="w-10 opacity-50" alt="Ganesh">
+            </div>
+            <h2 class="font-royal text-3xl text-royal-red mb-8">Divine Invitations</h2>
+            <p class="text-lg leading-loose italic text-gray-700">
+                With the profound blessings of <span class="font-bold text-royal-red">Lord Shiva, Mata Parvati, Lord Ganesha, and Lord Kartikeya</span>,
+                we request the honour of your presence as we celebrate the union of two families.
+            </p>
+            <div class="gold-divider"></div>
+        </div>
+
+        <div class="royal-card reveal">
+            <div class="flex flex-col md:flex-row gap-10 items-center">
+                <div class="text-center md:w-1/3">
+                    <h3 class="font-royal text-4xl text-royal-red">24</h3>
+                    <p class="uppercase tracking-widest text-gold font-bold">April 2026</p>
+                    <p class="text-gray-500 italic mt-2">Friday</p>
+                </div>
+                <div class="md:w-2/3 border-l-0 md:border-l border-gold-light md:pl-10 text-center md:text-left">
+                    <h4 class="font-royal text-2xl text-royal-red mb-4">Dham, Haldi & Jaggo</h4>
+                    <p class="text-gray-600 mb-6">A celebration of roots, turmeric, and rhythms of Punjab.</p>
+                    <div class="space-y-2 text-sm">
+                        <p><strong>Time:</strong> 4:00 PM Onwards</p>
+                        <p><strong>Venue:</strong> Our Residence, Bela Sariana, Punjab</p>
+                    </div>
+                    <a href="https://maps.app.goo.gl/FLRG1K4fKyweGimVA" target="_blank" class="btn-nav mt-6">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                        Navigate to Rituals
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="royal-card reveal bg-royal-red !text-white border-gold overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-30">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/om.png" class="w-20" alt="Om">
+            </div>
+
+            <div class="relative z-10 text-center space-y-8">
+                <h3 class="font-royal text-sm tracking-[0.4em] text-gold-light">THE SACRED UNION</h3>
+                <h2 class="font-cursive text-7xl text-gold">The Wedding Day</h2>
+
+                <div class="flex justify-center items-center gap-6 py-4 flex-wrap">
+                    <div class="h-[1px] bg-gold w-16"></div>
+                    <span class="font-royal text-2xl uppercase">26th April 2026</span>
+                    <div class="h-[1px] bg-gold w-16"></div>
+                </div>
+
+                <div class="space-y-4 max-w-lg mx-auto italic text-gold-light">
+                    <p class="text-2xl">Haridwar</p>
+                    <p class="text-sm">Under the spiritual aura of the Ganges and the blessings of Devadhidev Mahadev.</p>
+                    <p class="font-bold text-white not-italic mt-6">Shri Ayodhya Dham Ashram</p>
+                    <p class="text-xs tracking-widest">Motichur, Haridwar, Uttarakhand</p>
+                </div>
+
+                <a href="https://maps.app.goo.gl/9A527Bet9PUxtUtW6" target="_blank" class="btn-nav !bg-gold !text-royal-red hover:!bg-white">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                    View Wedding Venue
+                </a>
+            </div>
+        </div>
+
+        <div class="royal-card reveal">
+            <div class="flex flex-col md:flex-row gap-10 items-center">
+                <div class="text-center md:w-1/3">
+                    <h3 class="font-royal text-4xl text-royal-red">29</h3>
+                    <p class="uppercase tracking-widest text-gold font-bold">April 2026</p>
+                    <p class="text-gray-500 italic mt-2">Wednesday</p>
+                </div>
+                <div class="md:w-2/3 border-l-0 md:border-l border-gold-light md:pl-10 text-center md:text-left">
+                    <h4 class="font-royal text-2xl text-royal-red mb-4">The Grand Reception</h4>
+                    <p class="text-gray-600 mb-6">Join us for a celebratory evening as we welcome the new couple.</p>
+                    <div class="space-y-2 text-sm">
+                        <p><strong>Time:</strong> 4:00 PM Onwards</p>
+                        <p><strong>Venue:</strong> Bela Sariana, Punjab</p>
+                    </div>
+                    <a href="https://maps.app.goo.gl/FLRG1K4fKyweGimVA" target="_blank" class="btn-nav mt-6">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                        Navigation to Reception
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <section class="reveal text-center py-20 bg-gold-light/20 rounded-[50px] border border-gold/30">
+            <span class="text-5xl block mb-6">☔</span>
+            <h4 class="font-royal text-xl text-royal-red mb-6 uppercase tracking-widest">A Message from the Little Ones</h4>
+            <p class="text-2xl font-cursive text-royal-red mb-10 max-w-xl mx-auto leading-relaxed">
+                “Barkha ka mausam hai, baarish se na ghabrana, hamare Chacha/Mama ki shadi mein jalul jalul aana!”
+            </p>
+            <div class="flex justify-center gap-4 font-royal text-xs tracking-widest flex-wrap">
+                <span>AAKRITI</span> • <span>MISHI</span> • <span>GURNOOR</span>
+            </div>
+        </section>
+
+        <section class="reveal pt-32 grid md:grid-cols-2 gap-16">
+            <div class="text-center space-y-6">
+                <h4 class="font-royal text-xl text-gold uppercase tracking-widest">Best Compliments</h4>
+                <div class="space-y-1">
+                    <p class="text-2xl font-serif">Smt. Anjana Devi</p>
+                    <p class="text-2xl font-serif">& Sh. Onkar Singh</p>
+                </div>
+                <p class="text-gray-400 italic">and all family members</p>
+            </div>
+
+            <div class="space-y-8">
+                <h4 class="font-royal text-xl text-gold uppercase tracking-widest text-center">Inquiry & RSVP</h4>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-gold-light pb-2 gap-4">
+                        <span class="font-serif">Narinder Singh</span>
+                        <a href="tel:9911481013" class="text-royal-red font-bold">+91 99114 81013</a>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gold-light pb-2 gap-4">
+                        <span class="font-serif">Onkar Singh</span>
+                        <a href="tel:9310327637" class="text-royal-red font-bold">+91 93103 27637</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-royal-red py-20 text-center text-white border-t-8 border-gold">
+        <div class="mb-10">
+            <img src="https://img.icons8.com/ios-filled/50/d4af37/temple.png" class="mx-auto mb-4" alt="Temple">
+            <p class="font-royal text-gold-light tracking-[0.3em] uppercase text-xs">Awaiting Your Presence</p>
+        </div>
+        <p class="font-cursive text-5xl text-gold">Thank You</p>
+    </footer>
+
+    <!-- Background Music -->
+    <audio id="bg-music" autoplay loop>
+        <source src="https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav" type="audio/mpeg">
+    </audio>
+
+    <!-- Couple Gallery -->
+    <section class="py-24 text-center bg-white">
+        <h2 class="font-cursive text-5xl text-royal-red mb-10">Our Moments</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            <img src="https://images.unsplash.com/photo-1529636798458-92182e662485" class="rounded-xl shadow-lg">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552" class="rounded-xl shadow-lg">
+            <img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb" class="rounded-xl shadow-lg">
+        </div>
+    </section>
+
+    <!-- Google Map Embed -->
+    <section class="py-20 text-center">
+        <h2 class="font-royal text-2xl text-royal-red mb-6">Wedding Location</h2>
+        <iframe class="w-full max-w-3xl mx-auto h-64 rounded-xl border" src="https://maps.google.com/maps?q=Haridwar&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+    </section>
+
+    <script>
+        const music = document.getElementById('bg-music');
+        document.body.addEventListener('click', () => {
+            music.play().catch(()=>{});
+        });
+
+        const rainContainer = document.getElementById('rain-container');
+        function createRain() {
+            const drop = document.createElement('div');
+            drop.classList.add('rain-drop');
+            drop.style.left = Math.random() * 100 + 'vw';
+            drop.style.animationDuration = Math.random() * 2 + 3 + 's';
+            drop.style.opacity = Math.random();
+            rainContainer.appendChild(drop);
+            setTimeout(() => drop.remove(), 5000);
+        }
+        setInterval(createRain, 120);
+
+        const weddingDate = new Date('April 26, 2026 10:00:00').getTime();
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const gap = weddingDate - now;
+            const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
+
+            if (gap < 0) {
+                document.getElementById('countdown').innerHTML = "<h2 class='text-gold text-3xl font-royal'>The Celebration Begins!</h2>";
+                return;
+            }
+
+            const d = Math.floor(gap / day), h = Math.floor((gap % day) / hour),
+                  m = Math.floor((gap % hour) / minute), s = Math.floor((gap % minute) / second);
+
+            document.getElementById('countdown').innerHTML = `
+                <div class="countdown-box"><span class="text-2xl font-bold block text-gold">${d}</span><span class="text-[10px] uppercase tracking-widest">Days</span></div>
+                <div class="countdown-box"><span class="text-2xl font-bold block text-gold">${h}</span><span class="text-[10px] uppercase tracking-widest">Hours</span></div>
+                <div class="countdown-box"><span class="text-2xl font-bold block text-gold">${m}</span><span class="text-[10px] uppercase tracking-widest">Mins</span></div>
+                <div class="countdown-box"><span class="text-2xl font-bold block text-gold">${s}</span><span class="text-[10px] uppercase tracking-widest">Secs</span></div>
+            `;
+        };
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        window.addEventListener('scroll', reveal);
+        window.onload = reveal;
+    </script>
+</body>
+</html>
+</html>
